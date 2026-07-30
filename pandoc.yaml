@@ -1,0 +1,7 @@
+from: markdown
+to: html5
+standalone: true
+template: templates/page.html
+metadata:
+  lang: en
+  site-title: shelter

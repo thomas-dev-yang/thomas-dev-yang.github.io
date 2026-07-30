@@ -1,0 +1,141 @@
+:root {
+  color-scheme: light dark;
+  --background: #f8f7f4;
+  --text: #292825;
+  --muted: #6d6a63;
+  --link: #315b86;
+  --rule: #d9d6cf;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #191a1b;
+    --text: #e7e4dd;
+    --muted: #aaa69d;
+    --link: #8bb9e8;
+    --rule: #3a3b3d;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 18px;
+}
+
+body {
+  max-width: 72ch;
+  margin: 0 auto;
+  padding: 1.5rem;
+  background: var(--background);
+  color: var(--text);
+  font-family: ui-serif, Georgia, Cambria, "Times New Roman", serif;
+  line-height: 1.7;
+}
+
+a {
+  color: var(--link);
+  text-underline-offset: 0.15em;
+}
+
+a:hover {
+  text-decoration-thickness: 0.12em;
+}
+
+.site-header {
+  color: var(--muted);
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.9rem;
+}
+
+.site-header {
+  display: flex;
+  align-items: baseline;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.site-name {
+  color: var(--text);
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.site-separator,
+.page-date {
+  color: var(--muted);
+}
+
+.page-title {
+  margin: 0;
+  color: var(--text);
+  font-family: ui-serif, Georgia, Cambria, "Times New Roman", serif;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: inherit;
+}
+
+.page-date {
+  margin-left: auto;
+  font-size: 0.82rem;
+  font-variant-numeric: tabular-nums;
+}
+
+main {
+  padding: 2rem 0 3rem;
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.2;
+}
+
+h1 {
+  margin: 0 0 0.4rem;
+  font-size: clamp(2rem, 7vw, 3rem);
+  letter-spacing: -0.03em;
+}
+
+h2,
+h3 {
+  margin-top: 2rem;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+blockquote {
+  margin-left: 0;
+  padding-left: 1rem;
+  border-left: 3px solid var(--rule);
+  color: var(--muted);
+}
+
+pre {
+  overflow-x: auto;
+  padding: 1rem;
+  border: 1px solid var(--rule);
+  border-radius: 0.3rem;
+}
+
+code {
+  font-size: 0.88em;
+}
+
+@media (max-width: 500px) {
+  html {
+    font-size: 17px;
+  }
+
+  body {
+    padding: 1rem;
+  }
+}

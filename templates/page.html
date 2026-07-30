@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="$lang$">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>$if(is-home)$$site-title$$else$$title$ · $site-title$$endif$</title>
+  $if(description)$<meta name="description" content="$description$">$endif$
+  <link rel="stylesheet" href="$css-path$">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-name" href="$home-path$">$site-title$</a>
+    $if(is-home)$
+    $else$
+    <span class="site-separator" aria-hidden="true">·</span>
+    <h1 class="page-title">$title$</h1>
+    $if(date)$
+    <time class="page-date" datetime="$date$">$date$</time>
+    $endif$
+    $endif$
+  </header>
+
+  <main>
+    <article>
+      $body$
+    </article>
+  </main>
+</body>
+</html>
