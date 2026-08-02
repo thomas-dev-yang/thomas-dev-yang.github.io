@@ -5,6 +5,53 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>$if(is-home)$$site-title$$else$$title$ · $site-title$$endif$</title>
   $if(description)$<meta name="description" content="$description$">$endif$
+  <script>
+    (function () {
+      var key = "shelter-theme";
+      var root = document.documentElement;
+      var saved;
+
+      try {
+        saved = localStorage.getItem(key);
+      } catch (error) {}
+
+      if (saved === "light" || saved === "dark") {
+        root.dataset.theme = saved;
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        var button = document.querySelector(".theme-toggle");
+        var systemTheme = window.matchMedia("(prefers-color-scheme: dark)");
+
+        function currentTheme() {
+          return root.dataset.theme || (systemTheme.matches ? "dark" : "light");
+        }
+
+        function renderButton() {
+          var nextTheme = currentTheme() === "dark" ? "light" : "dark";
+          button.setAttribute("aria-label", "Use " + nextTheme + " theme");
+        }
+
+        button.hidden = false;
+        button.addEventListener("click", function () {
+          var nextTheme = currentTheme() === "dark" ? "light" : "dark";
+          root.dataset.theme = nextTheme;
+
+          try {
+            localStorage.setItem(key, nextTheme);
+          } catch (error) {}
+
+          renderButton();
+        });
+
+        systemTheme.addEventListener("change", function () {
+          if (!root.dataset.theme) renderButton();
+        });
+
+        renderButton();
+      });
+    })();
+  </script>
   <link rel="stylesheet" href="$css-path$">
 </head>
 <body>
@@ -18,6 +65,15 @@
     <time class="page-date" datetime="$date$">$date$</time>
     $endif$
     $endif$
+    <button class="theme-toggle" type="button" hidden>
+      <svg class="theme-icon moon-icon" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z"></path>
+      </svg>
+      <svg class="theme-icon sun-icon" viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="12" cy="12" r="4"></circle>
+        <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path>
+      </svg>
+    </button>
   </header>
 
   <main>

@@ -1,20 +1,33 @@
 :root {
-  color-scheme: light dark;
+  color-scheme: light;
   --background: #f8f7f4;
   --text: #292825;
   --muted: #6d6a63;
   --link: #315b86;
   --rule: #d9d6cf;
+  --code-background: #eeece7;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme]) {
     --background: #191a1b;
     --text: #e7e4dd;
     --muted: #aaa69d;
     --link: #8bb9e8;
     --rule: #3a3b3d;
+    --code-background: #25272a;
+    color-scheme: dark;
   }
+}
+
+:root[data-theme="dark"] {
+  --background: #191a1b;
+  --text: #e7e4dd;
+  --muted: #aaa69d;
+  --link: #8bb9e8;
+  --rule: #3a3b3d;
+  --code-background: #25272a;
+  color-scheme: dark;
 }
 
 * {
@@ -86,6 +99,57 @@ a:hover {
   font-variant-numeric: tabular-nums;
 }
 
+.theme-toggle {
+  margin-left: auto;
+  padding: 0.15rem;
+  border: 0;
+  border-radius: 0.25rem;
+  background: none;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.theme-toggle:hover {
+  color: var(--text);
+}
+
+.theme-icon {
+  display: block;
+  width: 1rem;
+  height: 1rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.sun-icon {
+  display: none;
+}
+
+:root[data-theme="dark"] .moon-icon {
+  display: none;
+}
+
+:root[data-theme="dark"] .sun-icon {
+  display: block;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .moon-icon {
+    display: none;
+  }
+
+  :root:not([data-theme]) .sun-icon {
+    display: block;
+  }
+}
+
+.page-date + .theme-toggle {
+  margin-left: 0;
+}
+
 main {
   padding: 2rem 0 3rem;
 }
@@ -127,7 +191,16 @@ pre {
 }
 
 code {
-  font-size: 0.88em;
+  font-family: ui-monospace, "SFMono-Regular", Consolas, "Liberation Mono",
+    monospace;
+  font-size: 0.86em;
+}
+
+:not(pre) > code {
+  padding: 0.08em 0.3em;
+  border: 1px solid var(--rule);
+  border-radius: 0.25rem;
+  background: var(--code-background);
 }
 
 @media (max-width: 500px) {
