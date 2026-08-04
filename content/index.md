@@ -6,8 +6,8 @@ title: Shelter
 
 ## Vision
 
-- [Beacons](vision/beacon.html) — 2026-07-29
-- [Solitary Knowledge Bases](vision/solitary-knowledge-bases.html) — 2026-08-03
+- [[vision/beacon]]
+- [[vision/solitary-knowledge-bases]]
 
 ## KVM
 

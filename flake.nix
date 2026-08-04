@@ -32,6 +32,7 @@
                 ./Makefile
                 ./assets
                 ./content
+                ./filters
                 ./pandoc.yaml
                 ./templates
               ];

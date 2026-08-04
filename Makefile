@@ -8,6 +8,7 @@ OUTPUT_DIR := public
 TEMPLATE := templates/page.html
 STYLESHEET := assets/style.css
 PANDOC_DEFAULTS := pandoc.yaml
+INDEX_FILTER := filters/post-links.lua
 VENV_PYTHON := .venv/bin/python
 
 PAGE_SOURCES := $(filter-out $(CONTENT_DIR)/index.md,$(shell find $(CONTENT_DIR) -type f -name '*.md' | sort))
@@ -23,9 +24,11 @@ rebuild:
 	$(MAKE) clean
 	$(MAKE) build
 
-$(OUTPUT_DIR)/index.html: $(CONTENT_DIR)/index.md $(TEMPLATE) $(PANDOC_DEFAULTS)
+$(OUTPUT_DIR)/index.html: $(CONTENT_DIR)/index.md $(PAGE_SOURCES) $(TEMPLATE) $(PANDOC_DEFAULTS) $(INDEX_FILTER)
 	@mkdir -p $(@D)
 	$(PANDOC) --defaults=$(PANDOC_DEFAULTS) \
+		--from=markdown+wikilinks_title_after_pipe \
+		--lua-filter=$(INDEX_FILTER) \
 		--metadata=css-path:style.css \
 		--metadata=home-path:index.html \
 		--metadata=is-home:true \
