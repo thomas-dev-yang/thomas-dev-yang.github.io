@@ -1,38 +1,38 @@
 :root {
   color-scheme: light;
-  --background: #f8f7f4;
-  --text: #292825;
-  --muted: #6d6a63;
-  --link: #8a4f35;
-  --link-underline: #bf947e;
-  --link-highlight: #efe5de;
-  --rule: #d9d6cf;
-  --code-background: #eeece7;
+  --background: #f3f5f2;
+  --text: #202521;
+  --muted: #687068;
+  --link: #4f6b59;
+  --link-underline: #9aae9f;
+  --link-highlight: #e2e9e3;
+  --rule: #d2d8d2;
+  --code-background: #e8ece8;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]) {
-    --background: #191a1b;
-    --text: #e7e4dd;
-    --muted: #aaa69d;
-    --link: #d6a07f;
-    --link-underline: #8f654f;
-    --link-highlight: #302823;
-    --rule: #3a3b3d;
-    --code-background: #25272a;
+    --background: #111714;
+    --text: #e2e9e4;
+    --muted: #98a29a;
+    --link: #9bc3a7;
+    --link-underline: #5d7c66;
+    --link-highlight: #1c2821;
+    --rule: #303b34;
+    --code-background: #1a211d;
     color-scheme: dark;
   }
 }
 
 :root[data-theme="dark"] {
-  --background: #191a1b;
-  --text: #e7e4dd;
-  --muted: #aaa69d;
-  --link: #d6a07f;
-  --link-underline: #8f654f;
-  --link-highlight: #302823;
-  --rule: #3a3b3d;
-  --code-background: #25272a;
+  --background: #111714;
+  --text: #e2e9e4;
+  --muted: #98a29a;
+  --link: #9bc3a7;
+  --link-underline: #5d7c66;
+  --link-highlight: #1c2821;
+  --rule: #303b34;
+  --code-background: #1a211d;
   color-scheme: dark;
 }
 
@@ -77,24 +77,24 @@ a:focus-visible {
 }
 
 .site-header {
+  display: flex;
+  align-items: baseline;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+  padding: 0.25rem 0 0.85rem;
+  border-bottom: 1px solid var(--rule);
   color: var(--muted);
   font-family: ui-sans-serif, system-ui, sans-serif;
   font-size: 0.9rem;
 }
 
-.site-header {
-  display: flex;
-  align-items: baseline;
-  gap: 0.55rem;
-  flex-wrap: wrap;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid var(--rule);
-}
-
 .site-name {
-  color: var(--text);
-  font-weight: 650;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 750;
+  letter-spacing: 0.1em;
   text-decoration: none;
+  text-transform: uppercase;
 }
 
 .site-name:hover {
@@ -108,23 +108,31 @@ a:focus-visible {
   color: var(--muted);
 }
 
+.site-separator {
+  color: var(--link);
+  font-size: 0.75rem;
+}
+
 .page-title {
   margin: 0;
   color: var(--text);
   font-family: ui-serif, Georgia, Cambria, "Times New Roman", serif;
-  font-size: 1rem;
-  font-weight: 600;
-  letter-spacing: 0;
+  font-size: 1.02rem;
+  font-weight: 650;
+  letter-spacing: -0.01em;
   line-height: inherit;
 }
 
 .page-date {
   margin-left: auto;
-  font-size: 0.82rem;
+  font-size: 0.7rem;
   font-variant-numeric: tabular-nums;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 .theme-toggle {
+  align-self: center;
   margin-left: auto;
   padding: 0.15rem;
   border: 0;
@@ -180,6 +188,7 @@ main {
 }
 
 ul:has(> li > .post-entry) {
+  margin-bottom: 0;
   padding-left: 0;
 }
 
@@ -270,6 +279,83 @@ h3 {
   flex: 1;
   background: var(--rule);
   content: "";
+}
+
+.home h2.is-toggle {
+  display: block;
+}
+
+.home h2.is-toggle::after {
+  content: none;
+}
+
+.section-toggle {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-align: left;
+  text-transform: inherit;
+  cursor: pointer;
+}
+
+.section-toggle::after {
+  height: 1px;
+  flex: 1;
+  background: var(--rule);
+  content: "";
+}
+
+.section-toggle:hover,
+.section-toggle:focus-visible {
+  color: var(--text);
+}
+
+.section-toggle:focus-visible {
+  border-radius: 0.12rem;
+  outline: 2px solid var(--link);
+  outline-offset: 0.2rem;
+}
+
+.section-toggle:hover::after,
+.section-toggle:focus-visible::after {
+  background: var(--link-underline);
+}
+
+.section-content {
+  display: grid;
+  grid-template-rows: 1fr;
+  opacity: 1;
+  transition:
+    grid-template-rows 180ms ease,
+    opacity 150ms ease;
+}
+
+.section-content-inner {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.is-collapsed .section-content {
+  grid-template-rows: 0fr;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.home section.is-collapsed > h2 {
+  margin-bottom: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .section-content {
+    transition: none;
+  }
 }
 
 img {

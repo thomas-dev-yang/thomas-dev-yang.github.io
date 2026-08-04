@@ -4,4 +4,4 @@ standalone: true
 template: templates/page.html
 metadata:
   lang: en
-  site-title: shelter
+  site-title: beacon

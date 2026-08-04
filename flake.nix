@@ -23,7 +23,7 @@
         in
         {
           default = pkgs.stdenvNoCC.mkDerivation {
-            pname = "shelter";
+            pname = "pandoc-blog";
             version = "0.1.0";
 
             src = pkgs.lib.fileset.toSource {

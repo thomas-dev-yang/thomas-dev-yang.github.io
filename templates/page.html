@@ -6,53 +6,15 @@
   <title>$if(is-home)$$site-title$$else$$title$ · $site-title$$endif$</title>
   $if(description)$<meta name="description" content="$description$">$endif$
   <script>
-    (function () {
-      var key = "shelter-theme";
-      var root = document.documentElement;
-      var saved;
-
-      try {
-        saved = localStorage.getItem(key);
-      } catch (error) {}
-
-      if (saved === "light" || saved === "dark") {
-        root.dataset.theme = saved;
+    try {
+      var theme = localStorage.getItem("blog-theme");
+      if (theme === "light" || theme === "dark") {
+        document.documentElement.dataset.theme = theme;
       }
-
-      document.addEventListener("DOMContentLoaded", function () {
-        var button = document.querySelector(".theme-toggle");
-        var systemTheme = window.matchMedia("(prefers-color-scheme: dark)");
-
-        function currentTheme() {
-          return root.dataset.theme || (systemTheme.matches ? "dark" : "light");
-        }
-
-        function renderButton() {
-          var nextTheme = currentTheme() === "dark" ? "light" : "dark";
-          button.setAttribute("aria-label", "Use " + nextTheme + " theme");
-        }
-
-        button.hidden = false;
-        button.addEventListener("click", function () {
-          var nextTheme = currentTheme() === "dark" ? "light" : "dark";
-          root.dataset.theme = nextTheme;
-
-          try {
-            localStorage.setItem(key, nextTheme);
-          } catch (error) {}
-
-          renderButton();
-        });
-
-        systemTheme.addEventListener("change", function () {
-          if (!root.dataset.theme) renderButton();
-        });
-
-        renderButton();
-      });
-    })();
+    } catch (error) {}
   </script>
   <link rel="stylesheet" href="$css-path$">
+  <script src="$script-path$" defer></script>
 </head>
 <body class="$if(is-home)$home$else$post$endif$">
   <header class="site-header">

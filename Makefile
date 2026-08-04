@@ -7,6 +7,7 @@ CONTENT_DIR := content
 OUTPUT_DIR := public
 TEMPLATE := templates/page.html
 STYLESHEET := assets/style.css
+SCRIPT := assets/site.js
 PANDOC_DEFAULTS := pandoc.yaml
 INDEX_FILTER := filters/post-links.lua
 VENV_PYTHON := .venv/bin/python
@@ -18,7 +19,7 @@ PAGE_OUTPUTS := $(patsubst $(CONTENT_DIR)/%.md,$(OUTPUT_DIR)/%.html,$(PAGE_SOURC
 
 all: build
 
-build: $(OUTPUT_DIR)/index.html $(PAGE_OUTPUTS) $(OUTPUT_DIR)/style.css
+build: $(OUTPUT_DIR)/index.html $(PAGE_OUTPUTS) $(OUTPUT_DIR)/style.css $(OUTPUT_DIR)/site.js
 
 rebuild:
 	$(MAKE) clean
@@ -28,8 +29,10 @@ $(OUTPUT_DIR)/index.html: $(CONTENT_DIR)/index.md $(PAGE_SOURCES) $(TEMPLATE) $(
 	@mkdir -p $(@D)
 	$(PANDOC) --defaults=$(PANDOC_DEFAULTS) \
 		--from=markdown+wikilinks_title_after_pipe \
+		--section-divs \
 		--lua-filter=$(INDEX_FILTER) \
 		--metadata=css-path:style.css \
+		--metadata=script-path:site.js \
 		--metadata=home-path:index.html \
 		--metadata=is-home:true \
 		--output=$@ $<
@@ -39,10 +42,15 @@ $(OUTPUT_DIR)/%.html: $(CONTENT_DIR)/%.md $(TEMPLATE) $(PANDOC_DEFAULTS)
 	@relative_root="$$(realpath --relative-to="$(@D)" "$(OUTPUT_DIR)")"; \
 	$(PANDOC) --defaults=$(PANDOC_DEFAULTS) \
 		--metadata=css-path:"$$relative_root/style.css" \
+		--metadata=script-path:"$$relative_root/site.js" \
 		--metadata=home-path:"$$relative_root/index.html" \
 		--output=$@ $<
 
 $(OUTPUT_DIR)/style.css: $(STYLESHEET)
+	@mkdir -p $(@D)
+	cp $< $@
+
+$(OUTPUT_DIR)/site.js: $(SCRIPT)
 	@mkdir -p $(@D)
 	cp $< $@
 

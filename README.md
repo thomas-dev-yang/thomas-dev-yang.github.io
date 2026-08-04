@@ -1,4 +1,4 @@
-# shelter
+# Blog
 
 Requires Nix with flakes enabled.
 
