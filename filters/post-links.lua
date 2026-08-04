@@ -32,21 +32,36 @@ local function read_post(slug)
   return post.meta.title, date
 end
 
+local function display_date(date)
+  local months = {
+    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+  }
+  local year, month, day = date:match("^(%d%d%d%d)%-(%d%d)%-(%d%d)$")
+  local month_name = month and months[tonumber(month)]
+
+  if not month_name then return date end
+  return month_name .. " " .. tonumber(day) .. ", " .. year
+end
+
 function Link(link)
   if not is_wikilink(link) then return nil end
 
   local slug = link.target
   local title, date = read_post(slug)
 
-  link.content = title
   link.target = slug .. ".html"
+  link.classes:insert("post-entry")
 
-  return {
-    link,
-    pandoc.Space(),
-    pandoc.Str("—"),
-    pandoc.Space(),
-    pandoc.Str(date),
-  }
+  local date_badge = pandoc.Span(
+    { pandoc.Str(display_date(date)) },
+    pandoc.Attr("", { "post-date" })
+  )
+  local title_text = pandoc.Span(
+    title,
+    pandoc.Attr("", { "post-title" })
+  )
+
+  link.content = { title_text, date_badge }
+  return link
 end
-
