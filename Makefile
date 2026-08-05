@@ -8,6 +8,8 @@ OUTPUT_DIR := public
 TEMPLATE := templates/page.html
 STYLESHEET := assets/style.css
 SCRIPT := assets/site.js
+FAVICON_LIGHT := assets/favicon-light.svg
+FAVICON_DARK := assets/favicon-dark.svg
 PANDOC_DEFAULTS := pandoc.yaml
 INDEX_FILTER := filters/post-links.lua
 VENV_PYTHON := .venv/bin/python
@@ -19,7 +21,7 @@ PAGE_OUTPUTS := $(patsubst $(CONTENT_DIR)/%.md,$(OUTPUT_DIR)/%.html,$(PAGE_SOURC
 
 all: build
 
-build: $(OUTPUT_DIR)/index.html $(PAGE_OUTPUTS) $(OUTPUT_DIR)/style.css $(OUTPUT_DIR)/site.js
+build: $(OUTPUT_DIR)/index.html $(PAGE_OUTPUTS) $(OUTPUT_DIR)/style.css $(OUTPUT_DIR)/site.js $(OUTPUT_DIR)/favicon-light.svg $(OUTPUT_DIR)/favicon-dark.svg
 
 rebuild:
 	$(MAKE) clean
@@ -33,6 +35,8 @@ $(OUTPUT_DIR)/index.html: $(CONTENT_DIR)/index.md $(PAGE_SOURCES) $(TEMPLATE) $(
 		--lua-filter=$(INDEX_FILTER) \
 		--metadata=css-path:style.css \
 		--metadata=script-path:site.js \
+		--metadata=favicon-light-path:favicon-light.svg \
+		--metadata=favicon-dark-path:favicon-dark.svg \
 		--metadata=home-path:index.html \
 		--metadata=is-home:true \
 		--output=$@ $<
@@ -43,6 +47,8 @@ $(OUTPUT_DIR)/%.html: $(CONTENT_DIR)/%.md $(TEMPLATE) $(PANDOC_DEFAULTS)
 	$(PANDOC) --defaults=$(PANDOC_DEFAULTS) \
 		--metadata=css-path:"$$relative_root/style.css" \
 		--metadata=script-path:"$$relative_root/site.js" \
+		--metadata=favicon-light-path:"$$relative_root/favicon-light.svg" \
+		--metadata=favicon-dark-path:"$$relative_root/favicon-dark.svg" \
 		--metadata=home-path:"$$relative_root/index.html" \
 		--output=$@ $<
 
@@ -51,6 +57,14 @@ $(OUTPUT_DIR)/style.css: $(STYLESHEET)
 	cp $< $@
 
 $(OUTPUT_DIR)/site.js: $(SCRIPT)
+	@mkdir -p $(@D)
+	cp $< $@
+
+$(OUTPUT_DIR)/favicon-light.svg: $(FAVICON_LIGHT)
+	@mkdir -p $(@D)
+	cp $< $@
+
+$(OUTPUT_DIR)/favicon-dark.svg: $(FAVICON_DARK)
 	@mkdir -p $(@D)
 	cp $< $@
 

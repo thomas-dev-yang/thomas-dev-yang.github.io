@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>$if(is-home)$$site-title$$else$$title$ · $site-title$$endif$</title>
   $if(description)$<meta name="description" content="$description$">$endif$
+  <link class="site-favicon" rel="icon" href="$favicon-light-path$" type="image/svg+xml"
+    data-light-href="$favicon-light-path$" data-dark-href="$favicon-dark-path$">
   <script>
     try {
       var theme = localStorage.getItem("blog-theme");

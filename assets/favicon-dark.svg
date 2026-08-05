@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" shape-rendering="crispEdges">
+  <title>Illuminated lighthouse at night</title>
+
+  <rect width="32" height="32" rx="3" fill="#081922"/>
+
+  <!-- The beacon returns with the night. -->
+  <path d="M12 7 0 3v12l12-4Zm8 0 12-4v12l-12-4Z" fill="#f5ca59" opacity=".2"/>
+  <path d="M12 8 0 6v6l12-3Zm8 0 12-2v6l-12-3Z" fill="#ffe17c" opacity=".3"/>
+
+  <path d="m9 27 3-16h8l3 16Z" fill="#a9c5bb"/>
+  <path d="M16 11h4l3 16h-7Z" fill="#f0ede0"/>
+  <path d="M9 18h14v1H9Z" fill="#d4a943"/>
+
+  <path d="M10 11h12v1H10Z" fill="#27525a"/>
+  <path d="M12 7h8v4h-8Z" fill="#ffd65f"/>
+  <path d="M15 7h2v4h-2Z" fill="#fff0a6"/>
+  <path d="M11 7h10l-2-2h-6Z" fill="#3f7271"/>
+
+  <path d="M7 27h18v2H7Z" fill="#24515c"/>
+  <path d="M5 29h22v2H5Z" fill="#173a46"/>
+  <path d="M16 27h9v2h-9Zm0 2h11v2H16Z" fill="#2e6470"/>
+</svg>

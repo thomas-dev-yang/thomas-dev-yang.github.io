@@ -56,6 +56,7 @@ body {
 
 a {
   color: var(--link);
+  -webkit-tap-highlight-color: transparent;
   text-decoration-color: var(--link-underline);
   text-decoration-thickness: 0.08em;
   text-underline-offset: 0.18em;
@@ -140,10 +141,16 @@ a:focus-visible {
   background: none;
   color: var(--muted);
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .theme-toggle:hover {
   color: var(--text);
+}
+
+.theme-toggle:focus-visible {
+  outline: 2px solid var(--link);
+  outline-offset: 0.2rem;
 }
 
 .theme-icon {
@@ -303,6 +310,7 @@ h3 {
   text-align: left;
   text-transform: inherit;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .section-toggle::after {

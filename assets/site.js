@@ -6,6 +6,7 @@
   function setupTheme() {
     var key = "blog-theme";
     var button = document.querySelector(".theme-toggle");
+    var favicon = document.querySelector(".site-favicon");
     var systemTheme = window.matchMedia("(prefers-color-scheme: dark)");
 
     if (!button) return;
@@ -14,9 +15,17 @@
       return root.dataset.theme || (systemTheme.matches ? "dark" : "light");
     }
 
-    function renderButton() {
-      var nextTheme = currentTheme() === "dark" ? "light" : "dark";
+    function renderTheme() {
+      var theme = currentTheme();
+      var nextTheme = theme === "dark" ? "light" : "dark";
       button.setAttribute("aria-label", "Use " + nextTheme + " theme");
+
+      if (favicon) {
+        var faviconHref = favicon.dataset[theme + "Href"];
+        if (faviconHref && favicon.getAttribute("href") !== faviconHref) {
+          favicon.setAttribute("href", faviconHref);
+        }
+      }
     }
 
     button.hidden = false;
@@ -28,14 +37,14 @@
         localStorage.setItem(key, nextTheme);
       } catch (error) {}
 
-      renderButton();
+      renderTheme();
     });
 
     systemTheme.addEventListener("change", function () {
-      if (!root.dataset.theme) renderButton();
+      if (!root.dataset.theme) renderTheme();
     });
 
-    renderButton();
+    renderTheme();
   }
 
   function setupSections() {

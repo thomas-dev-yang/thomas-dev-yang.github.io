@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" shape-rendering="crispEdges">
+  <title>Unlit marble lighthouse</title>
+
+  <rect width="32" height="32" rx="3" fill="#eeefec"/>
+
+  <!-- A lighthouse gone quiet and pale, like a weathered marble statue. -->
+  <path d="m9 27 3-16h8l3 16Z" fill="#c4c7c2"/>
+  <path d="M16 11h4l3 16h-7Z" fill="#d9dad5"/>
+  <path d="M9 18h14v1H9Z" fill="#aeb2ad"/>
+
+  <path d="M10 11h12v1H10Z" fill="#aeb2ad"/>
+  <path d="M12 7h8v4h-8Z" fill="#c9cbc6"/>
+  <path d="M15 7h2v4h-2Z" fill="#aeb2ad"/>
+  <path d="M11 7h10l-2-2h-6Z" fill="#b8bbb6"/>
+
+  <path d="M7 27h18v2H7Zm-2 2h22v2H5Z" fill="#b4b8b3"/>
+  <path d="M16 27h9v2h-9Zm0 2h11v2H16Z" fill="#c9ccc7"/>
+</svg>
