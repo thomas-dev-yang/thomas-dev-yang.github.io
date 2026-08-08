@@ -96,3 +96,37 @@ consequences of speech, other than raw truth". (To be _extra_ clear, I don't
 think representationalism _has_ access to this thing called 'truth', but I'm
 just using the rhetoric). I mean, after all, they're different terms. But
 I don't know.
+
+---
+
+## Addendum 8-8-2026
+
+OK, the most concise way to say this, is that I feel like representationalism,
+once you get to the "base", assumes there is a "mere" mapping function involved.
+Now, mapping functions can get hard. They can be nearest neighbor, some kind of
+high-dimensional classifier, etc.
+
+Inferentialism claims that the "mapping" function grows _arbitrarily_ hard (well,
+it would reject the framing of a "mapping" function, but if we had to phrase
+it in purely representational terms, this is my model of it). Something can
+get its meaning not because it got looked up in some abstract high dimensional
+lookup table, but because some turing machine computed an arbitraily hard model
+of what should happen and all downstream consequences from it.
+
+This is also incidentally why I have an issue with just mere "mental model"
+framings, because when people say the word "mental model", they _usually_ assume
+a representational mode of thought - the base, first actionable thing is taxonomy.
+
+And again, it's hard to argue out of this, because you hear this, and you think,
+"Well, duh! I have all these representations in my head that form a world model".
+That's... not really what is going on, I think.
+
+And this is why I really think, despite how "vacuous" and stupid Solomonoff
+induction can be, it actually presents something actionable, because when I say
+"arbitrary Turing Machine" (not in the formal sense - again, sorry, complexity
+theorists) - the _intent_ is to break out of representation and say, hey, no,
+there can be way more complicated modes of thought.
+
+It takes time to sink in, because any argument from arbitrary compleixty can
+be reformulated in representational terms as "Oh, there's just a very high
+latent space" or something. I don't know.
