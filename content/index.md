@@ -1,9 +1,11 @@
-## Philosophy
-
 ## Vision
 
 - [[vision/beacon]]
 - [[vision/solitary-knowledge-bases]]
+
+## Philosophy
+
+- [[philosophy/inferentialism-larp]]
 
 ## KVM
 
