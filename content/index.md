@@ -7,9 +7,9 @@
 
 - [[philosophy/inferentialism-larp]]
 
-## Virtualization
+## Linux
 
-- [[virt/linux-1]]
+- [[linux/virt-1]]
 
 ## AI
 
