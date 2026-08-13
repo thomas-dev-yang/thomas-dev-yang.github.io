@@ -7,10 +7,14 @@
 
 - [[philosophy/inferentialism-larp]]
 
-## KVM
+## Virtualization
+
+- [[virt/linux-1]]
 
 ## AI
 
 ## Python
 
 ## Incremental/Query-Based Compilers
+
+## Misc
