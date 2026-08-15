@@ -1,6 +1,7 @@
 from: markdown
 to: html5
 standalone: true
+html-math-method: mathjax
 template: templates/page.html
 metadata:
   lang: en

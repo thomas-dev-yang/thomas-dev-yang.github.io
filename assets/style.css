@@ -378,6 +378,22 @@ blockquote {
   color: var(--muted);
 }
 
+.source-box {
+  margin: 1.5rem 0;
+  padding: 1rem 1.2rem;
+  border: 1px solid var(--rule);
+  border-radius: 0.4rem;
+  background: var(--code-background);
+}
+
+.source-box > :first-child {
+  margin-top: 0;
+}
+
+.source-box > :last-child {
+  margin-bottom: 0;
+}
+
 pre {
   overflow-x: auto;
   padding: 1rem;

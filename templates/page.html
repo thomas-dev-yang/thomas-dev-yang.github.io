@@ -16,6 +16,9 @@
     } catch (error) {}
   </script>
   <link rel="stylesheet" href="$css-path$">
+  $if(math)$
+  $math$
+  $endif$
   <script src="$script-path$" defer></script>
 </head>
 <body class="$if(is-home)$home$else$post$endif$">

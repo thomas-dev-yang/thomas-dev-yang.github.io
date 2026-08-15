@@ -11,6 +11,10 @@
 
 - [[linux/virt-1]]
 
+## Math
+
+- [[math/ergodic-signals]]
+
 ## AI
 
 ## Python
