@@ -2,6 +2,7 @@
 
 - [[vision/beacon]]
 - [[vision/solitary-knowledge-bases]]
+- [[vision/manufacturing-persistence]]
 
 ## Philosophy
 
