@@ -80,7 +80,7 @@ really care about the designators, like, at all.
 > if you want two predicates that say, "This chair is red", and, "This chair is
 > blue" in Carnap's logic, you cannot. Without significant modifications that
 > he probably doesn't want, you cannot support "The 'This chair' is the same in
-> both predicates"; that must be inferred from say, _meaning predicates_ (ah,
+> both predicates"; that must be inferred from say, _meaning postulates_ (ah,
 > those lovely terms).
 
 And this is what I mean by "bad architecture" (as all problem solvers know).
