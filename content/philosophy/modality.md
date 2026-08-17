@@ -85,3 +85,8 @@ really care about the designators, like, at all.
 
 And this is what I mean by "bad architecture" (as all problem solvers know).
 Your way of looking at the problem can make something hard or easy. C
+
+---
+
+The weird consequences of this are things like necessary a posteroi and other
+really weird BS. But we can explore this another day.
