@@ -76,12 +76,11 @@ predicates for his modality. While you could encode designators
 semantically (this function means, "This chair at time t is blue"), you don't
 really care about the designators, like, at all.
 
-> Note: I am _not_ saying that a function predicate can refer to an object. But
-> if you want two predicates that say, "This chair is red", and, "This chair is
-> blue" in Carnap's logic, you cannot. Without significant modifications that
-> he probably doesn't want, you cannot support "The 'This chair' is the same in
-> both predicates"; that must be inferred from say, _meaning postulates_ (ah,
-> those lovely terms).
+> Note: Specifically, if you want two predicates that say, "This chair is red",
+> and, "This chair is blue" in Carnap's logic, you cannot. Without significant
+> modifications that he probably doesn't want, you cannot support "The 'This
+> chair' is the same in both predicates"; that must be inferred from say,
+> _meaning postulates_ (ah, those lovely terms).
 
 And this is what I mean by "bad architecture" (as all problem solvers know).
 Your way of looking at the problem can make something hard or easy. C
