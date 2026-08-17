@@ -83,7 +83,7 @@ really care about the designators, like, at all.
 > _meaning postulates_ (ah, those lovely terms).
 
 And this is what I mean by "bad architecture" (as all problem solvers know).
-Your way of looking at the problem can make something hard or easy. C
+Your way of looking at the problem can make something hard or easy.
 
 ---
 
