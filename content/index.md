@@ -7,6 +7,7 @@
 ## Philosophy
 
 - [[philosophy/inferentialism-larp]]
+- [[philosophy/modality]]
 
 ## Linux
 
