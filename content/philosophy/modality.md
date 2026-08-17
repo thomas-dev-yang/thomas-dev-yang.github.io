@@ -53,3 +53,35 @@ wouldn't know, I'm not familiar enough with this field.
 I don't know if there are frameworks out there that start with this exact
 problem and solve it in another way _besides_ modality, but it appears that
 modality has cached out sufficiently powerful results that it's a staple now.
+
+## Modality and the causal-historical theory of reference
+
+From the way I see it, nobody would believe the causal-historical theory of
+reference (or at least, treat it as non-vacuously useful) if not for Kripke's
+modality on top of it and actually cashing out by showing usefulness. I mean,
+when you read it, it just seems kind of true, but not really interesting. Maybe
+I'm underselling it though.
+
+Importantly, this means that other forms of modality (Carnap, Leibnizian) are
+"wrong" in the sense that they don't anchor to this interesting problem to
+solve. Well, I'm not a Leibniz scholar, and I'm barely a Carnap enthusiast
+(I need to read Michael Friedman…), but Carnap kind of like, didn't do
+anything. I mean, okay, like Popper, by formalizing his intuitions, he revealed
+problems with them (two dogmas, and descriptivism).
+
+Well, that's a bit of post-hoc reasoning. Maybe I could sit here and try to
+really retrofit L-languages back onto rigid designators, but I'm no
+philosopher. At a first pass, Carnap is weird because he varies all function
+predicates for his modality. While you could encode designators
+semantically (this function means, "This chair at time t is blue"), you don't
+really care about the designators, like, at all.
+
+> Note: I am _not_ saying that a function predicate can refer to an object. But
+> if you want two predicates that say, "This chair is red", and, "This chair is
+> blue" in Carnap's logic, you cannot. Without significant modifications that
+> he probably doesn't want, you cannot support "The 'This chair' is the same in
+> both predicates"; that must be inferred from say, _meaning predicates_ (ah,
+> those lovely terms).
+
+And this is what I mean by "bad architecture" (as all problem solvers know).
+Your way of looking at the problem can make something hard or easy. C
