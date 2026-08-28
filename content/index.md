@@ -24,3 +24,5 @@
 ## Incremental/Query-Based Compilers
 
 ## Misc
+
+- [[misc/08-27-2026]]
