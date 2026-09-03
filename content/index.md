@@ -8,6 +8,7 @@
 
 - [[philosophy/inferentialism-larp]]
 - [[philosophy/modality]]
+- [[philosophy/rorty-and-dostoevsky]]
 
 ## Linux
 
