@@ -29,3 +29,4 @@
 - [[misc/08-27-2026]]
 - [[misc/positive]]
 - [[misc/speaking]]
+- [[misc/09-07-2026]]
