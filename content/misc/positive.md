@@ -1,6 +1,6 @@
 ---
 title: Inability to create
-date: 2026-08-27
+date: 2026-09-07
 ---
 
 I can talk about how actually, Logical Positivism isn't actually closely
