@@ -27,4 +27,4 @@
 ## Misc
 
 - [[misc/08-27-2026]]
-- [[misc/conversation]]
+- [[misc/speaking]]
