@@ -3,6 +3,7 @@
 - [[vision/beacon]]
 - [[vision/solitary-knowledge-bases]]
 - [[vision/manufacturing-persistence]]
+- [[vision/9-7-2026]]
 
 ## Philosophy
 
