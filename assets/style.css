@@ -8,6 +8,12 @@
   --link-highlight: #e2e9e3;
   --rule: #d2d8d2;
   --code-background: #e8ece8;
+  --post-beacon-display: block;
+  --post-hover-background: transparent;
+  --post-color-transition: color 320ms ease;
+  --post-hover-title: #80601e;
+  --post-beacon-spill: 100vw;
+  --post-beam-color: 224 172 61;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -25,6 +31,7 @@
     --post-color-transition: color 320ms ease;
     --post-hover-title: #dfce8d;
     --post-beacon-spill: 100vw;
+    --post-beam-color: 244 211 116;
     color-scheme: dark;
   }
 }
@@ -43,6 +50,7 @@
   --post-color-transition: color 320ms ease;
   --post-hover-title: #dfce8d;
   --post-beacon-spill: 100vw;
+  --post-beam-color: 244 211 116;
   color-scheme: dark;
 }
 
@@ -271,10 +279,10 @@ html:has(.home) {
   width: 100vw;
   background: linear-gradient(
     to right,
-    rgb(244 211 116 / 0.035),
-    rgb(244 211 116 / 0.14) 30%,
-    rgb(244 211 116 / 0.10) 55%,
-    rgb(244 211 116 / 0.035)
+    rgb(var(--post-beam-color) / 0.035),
+    rgb(var(--post-beam-color) / 0.14) 30%,
+    rgb(var(--post-beam-color) / 0.10) 55%,
+    rgb(var(--post-beam-color) / 0.035)
   );
   mask-image: linear-gradient(
     to bottom,
