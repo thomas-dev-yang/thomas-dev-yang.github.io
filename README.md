@@ -10,5 +10,9 @@ nix build     # build into result/
 
 `content/<path>.md` builds to `public/<path>.html`.
 
+Homepage post lists sort newest first using the same `date:` metadata shown
+beside each title. Posts with the same date sort by path alphabetically.
+File timestamps and the order of links in `content/index.md` do not affect sorting.
+
 Pushes to `main` deploy through `.github/workflows/pages.yml`. The repository's
 Pages source must be set to **GitHub Actions**.

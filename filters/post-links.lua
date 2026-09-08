@@ -44,14 +44,17 @@ local function display_date(date)
   return month_name .. " " .. tonumber(day) .. ", " .. year
 end
 
-function Link(link)
+local function post_link(link)
   if not is_wikilink(link) then return nil end
 
   local slug = link.target
   local title, date = read_post(slug)
+  local sort_date = pandoc.utils.normalize_date(date)
+  if not sort_date then fail(slug, "invalid date metadata: " .. date) end
 
   link.target = slug .. ".html"
   link.classes:insert("post-entry")
+  link.attributes["data-post-date"] = sort_date
 
   local date_badge = pandoc.Span(
     { pandoc.Str(display_date(date)) },
@@ -65,3 +68,37 @@ function Link(link)
   link.content = { title_text, date_badge }
   return link
 end
+
+local function sort_posts(list)
+  local entries = {}
+  for index, item in ipairs(list.content) do
+    -- Only sort lists made entirely of standalone post links.
+    if #item ~= 1 or (item[1].t ~= "Plain" and item[1].t ~= "Para") then
+      return nil
+    end
+    local content = item[1].content
+    if #content ~= 1 or content[1].t ~= "Link" then return nil end
+    local link = content[1]
+    local date = link.attributes["data-post-date"]
+    if not date then return nil end
+    entries[#entries + 1] = {
+      item = item, date = date, path = link.target, index = index,
+    }
+  end
+
+  table.sort(entries, function(a, b)
+    if a.date ~= b.date then return a.date > b.date end
+    if a.path ~= b.path then return a.path < b.path end
+    return a.index < b.index
+  end)
+
+  for index, entry in ipairs(entries) do
+    list.content[index] = entry.item
+  end
+  return list
+end
+
+return {
+  { Link = post_link },
+  { BulletList = sort_posts },
+}
