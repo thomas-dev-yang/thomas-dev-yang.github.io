@@ -21,15 +21,17 @@
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]) {
-    --background: #111714;
-    --sky-background: none;
-    --text: #e2e9e4;
-    --muted: #98a29a;
-    --link: #9bc3a7;
-    --link-underline: #5d7c66;
-    --link-highlight: #1c2821;
-    --rule: #303b34;
-    --code-background: #1a211d;
+    --background: #191d2b;
+    --sky-background:
+      radial-gradient(ellipse at 85% 100%, rgb(182 111 72 / 0.16), transparent 65%),
+      linear-gradient(180deg, #111725, #1c1e30 48%, #302636 78%, #392b35);
+    --text: #e8e4ed;
+    --muted: #aaa1b4;
+    --link: #c5b0ce;
+    --link-underline: #806985;
+    --link-highlight: #2b293b;
+    --rule: #40394b;
+    --code-background: #1f2130;
     --post-beacon-display: block;
     --post-hover-background: transparent;
     --post-color-transition: color 320ms ease;
@@ -41,15 +43,17 @@
 }
 
 :root[data-theme="dark"] {
-  --background: #111714;
-  --sky-background: none;
-  --text: #e2e9e4;
-  --muted: #98a29a;
-  --link: #9bc3a7;
-  --link-underline: #5d7c66;
-  --link-highlight: #1c2821;
-  --rule: #303b34;
-  --code-background: #1a211d;
+  --background: #191d2b;
+  --sky-background:
+    radial-gradient(ellipse at 85% 100%, rgb(182 111 72 / 0.16), transparent 65%),
+    linear-gradient(180deg, #111725, #1c1e30 48%, #302636 78%, #392b35);
+  --text: #e8e4ed;
+  --muted: #aaa1b4;
+  --link: #c5b0ce;
+  --link-underline: #806985;
+  --link-highlight: #2b293b;
+  --rule: #40394b;
+  --code-background: #1f2130;
   --post-beacon-display: block;
   --post-hover-background: transparent;
   --post-color-transition: color 320ms ease;
