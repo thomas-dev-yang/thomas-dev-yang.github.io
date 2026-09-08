@@ -20,6 +20,11 @@
     --link-highlight: #1c2821;
     --rule: #303b34;
     --code-background: #1a211d;
+    --post-beacon-display: block;
+    --post-hover-background: transparent;
+    --post-color-transition: color 320ms ease;
+    --post-hover-title: #dfce8d;
+    --post-beacon-spill: 100vw;
     color-scheme: dark;
   }
 }
@@ -33,6 +38,11 @@
   --link-highlight: #1c2821;
   --rule: #303b34;
   --code-background: #1a211d;
+  --post-beacon-display: block;
+  --post-hover-background: transparent;
+  --post-color-transition: color 320ms ease;
+  --post-hover-title: #dfce8d;
+  --post-beacon-spill: 100vw;
   color-scheme: dark;
 }
 
@@ -225,6 +235,71 @@ li:has(> .post-entry) {
   text-decoration: none;
 }
 
+/* Clip the viewport-wide light at the screen edges, without adding a scrollbar. */
+html:has(.home) {
+  overflow-x: clip;
+}
+
+/* Light can spill beyond a row; its decorative layers never receive clicks. */
+.home .post-entry {
+  position: relative;
+  isolation: isolate;
+}
+
+.home .post-entry:hover,
+.home .post-entry:focus-visible {
+  background: var(--post-hover-background, var(--link-highlight));
+}
+
+.home .post-entry:focus-visible {
+  outline-color: var(--post-hover-title, var(--link));
+}
+
+.home .post-entry::before {
+  display: var(--post-beacon-display, none);
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+  content: "";
+  opacity: 0;
+}
+
+.home .post-entry::before {
+  top: -0.85rem;
+  bottom: -0.85rem;
+  left: calc(50% - 50vw);
+  width: 100vw;
+  background: linear-gradient(
+    to right,
+    rgb(244 211 116 / 0.035),
+    rgb(244 211 116 / 0.14) 30%,
+    rgb(244 211 116 / 0.10) 55%,
+    rgb(244 211 116 / 0.035)
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    #000 38%,
+    #000 62%,
+    transparent
+  );
+  filter: blur(8px);
+  transform: translateX(-0.35rem);
+  transition:
+    opacity 480ms ease,
+    transform 650ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.home .post-entry:is(:hover, :focus-visible)::before {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.home .post-title,
+.home .post-date {
+  transition: var(--post-color-transition, none);
+}
+
 .post-title {
   min-width: 0;
   font-weight: 650;
@@ -232,7 +307,7 @@ li:has(> .post-entry) {
 
 .post-entry:hover .post-title,
 .post-entry:focus-visible .post-title {
-  color: var(--link);
+  color: var(--post-hover-title, var(--link));
 }
 
 .post-date {
@@ -347,7 +422,12 @@ h3 {
 
 .section-content-inner {
   min-height: 0;
-  overflow: hidden;
+  overflow: clip;
+  overflow-clip-margin: var(--post-beacon-spill, 0px);
+}
+
+.is-collapsed .section-content-inner {
+  overflow-clip-margin: 0;
 }
 
 .is-collapsed .section-content {
@@ -361,6 +441,9 @@ h3 {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .home .post-entry::before,
+  .home .post-title,
+  .home .post-date,
   .section-content {
     transition: none;
   }
