@@ -1,13 +1,16 @@
 :root {
   color-scheme: light;
-  --background: #f3f5f2;
-  --text: #202521;
-  --muted: #687068;
-  --link: #4f6b59;
-  --link-underline: #9aae9f;
-  --link-highlight: #e2e9e3;
-  --rule: #d2d8d2;
-  --code-background: #e8ece8;
+  --background: #f4ebef;
+  --sky-background:
+    radial-gradient(ellipse at 85% 100%, rgb(255 224 174 / 0.45), transparent 65%),
+    linear-gradient(180deg, #eae8f4, #f4e9ee 45%, #faeee8 78%, #fbf1e4);
+  --text: #342e3b;
+  --muted: #716271;
+  --link: #745571;
+  --link-underline: #b797ac;
+  --link-highlight: #eadce7;
+  --rule: #d8cbd7;
+  --code-background: #ede5ec;
   --post-beacon-display: block;
   --post-hover-background: transparent;
   --post-color-transition: color 320ms ease;
@@ -19,6 +22,7 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]) {
     --background: #111714;
+    --sky-background: none;
     --text: #e2e9e4;
     --muted: #98a29a;
     --link: #9bc3a7;
@@ -38,6 +42,7 @@
 
 :root[data-theme="dark"] {
   --background: #111714;
+  --sky-background: none;
   --text: #e2e9e4;
   --muted: #98a29a;
   --link: #9bc3a7;
@@ -59,14 +64,17 @@
 }
 
 html {
+  min-height: 100%;
   font-size: 18px;
+  background-color: var(--background);
+  background-image: var(--sky-background);
+  background-attachment: fixed;
 }
 
 body {
   max-width: 72ch;
   margin: 0 auto;
   padding: 1.5rem;
-  background: var(--background);
   color: var(--text);
   font-family: ui-serif, Georgia, Cambria, "Times New Roman", serif;
   line-height: 1.7;
