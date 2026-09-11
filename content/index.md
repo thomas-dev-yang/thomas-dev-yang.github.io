@@ -19,6 +19,7 @@
 ## Math
 
 - [[math/ergodic-signals]]
+- [[math/off-dft-bin]]
 
 ## AI
 

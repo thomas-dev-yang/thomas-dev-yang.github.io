@@ -16,12 +16,20 @@ VENV_PYTHON := .venv/bin/python
 
 PAGE_SOURCES := $(filter-out $(CONTENT_DIR)/index.md,$(shell find $(CONTENT_DIR) -type f -name '*.md' | sort))
 PAGE_OUTPUTS := $(patsubst $(CONTENT_DIR)/%.md,$(OUTPUT_DIR)/%.html,$(PAGE_SOURCES))
+CONTENT_ASSETS := $(shell find $(CONTENT_DIR) -type f ! -name '*.md' | sort)
+ASSET_OUTPUTS := $(patsubst $(CONTENT_DIR)/%,$(OUTPUT_DIR)/%,$(CONTENT_ASSETS))
+
+# Assets must never overwrite rendered pages or shared site files.
+ASSET_COLLISIONS := $(filter $(PAGE_OUTPUTS) $(OUTPUT_DIR)/index.html $(OUTPUT_DIR)/style.css $(OUTPUT_DIR)/site.js $(OUTPUT_DIR)/favicon-light.svg $(OUTPUT_DIR)/favicon-dark.svg,$(ASSET_OUTPUTS))
+ifneq ($(strip $(ASSET_COLLISIONS)),)
+$(error Content assets collide with generated files: $(ASSET_COLLISIONS))
+endif
 
 .PHONY: all build clean rebuild serve
 
 all: build
 
-build: $(OUTPUT_DIR)/index.html $(PAGE_OUTPUTS) $(OUTPUT_DIR)/style.css $(OUTPUT_DIR)/site.js $(OUTPUT_DIR)/favicon-light.svg $(OUTPUT_DIR)/favicon-dark.svg
+build: $(OUTPUT_DIR)/index.html $(PAGE_OUTPUTS) $(ASSET_OUTPUTS) $(OUTPUT_DIR)/style.css $(OUTPUT_DIR)/site.js $(OUTPUT_DIR)/favicon-light.svg $(OUTPUT_DIR)/favicon-dark.svg
 
 rebuild:
 	$(MAKE) clean
@@ -55,6 +63,12 @@ $(OUTPUT_DIR)/%.html: $(CONTENT_DIR)/%.md $(TEMPLATE) $(PANDOC_DEFAULTS)
 $(OUTPUT_DIR)/style.css: $(STYLESHEET)
 	@mkdir -p $(@D)
 	cp $< $@
+
+ifneq ($(strip $(ASSET_OUTPUTS)),)
+$(ASSET_OUTPUTS): $(OUTPUT_DIR)/%: $(CONTENT_DIR)/%
+	@mkdir -p $(@D)
+	cp $< $@
+endif
 
 $(OUTPUT_DIR)/site.js: $(SCRIPT)
 	@mkdir -p $(@D)

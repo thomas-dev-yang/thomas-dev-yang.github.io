@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sine-wave projection</title>
+  <link rel="stylesheet" href="../../style.css">
+</head>
+<body>
+<figure class="projection-widget" aria-label="Accumulated sine-wave dot products">
+  <figcaption>Accumulated dot product <span>Δt ∑ sin(2πt) sin(2πft)</span></figcaption>
+  <div class="projection-legend"><span>━━ 1 Hz</span><span>┄┄ 1.01 Hz</span></div>
+  <div class="projection-plots"></div>
+  <div class="projection-controls" hidden>
+    <label for="projection-time">T = <output for="projection-time">25.0 s</output></label>
+    <input id="projection-time" type="range" min="0" max="200" step="0.1" value="25">
+  </div>
+  <noscript>JavaScript is required for the plot.</noscript>
+</figure>
+<style>
+html { background: transparent; }
+body { max-width: none; margin: 0; padding: 0; }
+.projection-widget { margin: 0; padding: .25rem; font: .8rem/1.5 ui-sans-serif, system-ui, sans-serif; }
+.projection-widget figcaption span { display: block; color: var(--muted); font-size: .75rem; }
+.projection-legend { display: flex; gap: 1.25rem; margin-top: .5rem; }
+.projection-legend span:last-child { color: var(--link); }
+.projection-controls { align-items: center; gap: 1rem; }
+.projection-controls:not([hidden]) { display: flex; }
+.projection-controls label { white-space: nowrap; font-variant-numeric: tabular-nums; min-width: 6rem; }
+.projection-widget input { width: 100%; min-width: 0; margin: .5rem 0; accent-color: var(--link); }
+.projection-widget :focus-visible { outline: 2px solid var(--link); outline-offset: 3px; }
+.projection-widget svg { display: block; width: 100%; height: auto; margin: .5rem 0; }
+.projection-widget svg text { fill: var(--muted); font: 12px ui-sans-serif, system-ui, sans-serif; }
+</style>
+<script>
+(() => {
+  const widget = document.querySelector('.projection-widget');
+  const slider = widget.querySelector('input[type="range"]');
+  const plots = widget.querySelector('.projection-plots');
+  const dt = 0.001, duration = 200, count = Math.round(duration / dt);
+  // Left-endpoint sampled sums: index n includes samples at 0, …, (n - 1) Δt.
+  const sums = [new Float64Array(count + 1), new Float64Array(count + 1)];
+  function product(t, f) {
+    return Math.sin(2 * Math.PI * t) * Math.sin(2 * Math.PI * f * t);
+  }
+  for (let n = 0; n < count; n++) {
+    sums[0][n + 1] = sums[0][n] + dt * product(n * dt, 1);
+    sums[1][n + 1] = sums[1][n] + dt * product(n * dt, 1.01);
+  }
+  function chart(title, xMin, xMax, yMin, yMax, lines) {
+    const width = Math.max(260, Math.min(640, plots.clientWidth));
+    const left = 40, right = width - 20, top = 10, bottom = 210;
+    const x = t => left + (t - xMin) / (xMax - xMin) * (right - left);
+    const y = v => bottom - (v - yMin) / (yMax - yMin) * (bottom - top);
+    let svg = `<svg viewBox="0 0 ${width} 240" role="img" aria-label="${title}"><title>${title}</title>`;
+    for (const v of [0, 50, 100]) {
+      svg += `<path d="M${left},${y(v)}H${right}" stroke="var(--rule)"/><text x="${left - 8}" y="${y(v) + 4}" text-anchor="end">${v}</text>`;
+    }
+    for (let i = 0; i <= 4; i++) {
+      const t = xMin + (xMax - xMin) * i / 4;
+      svg += `<text x="${x(t)}" y="233" text-anchor="middle">${Number(t.toFixed(1))}${i === 4 ? ' s' : ''}</text>`;
+    }
+    lines.forEach((points, i) => {
+      if (!points.length) return;
+      const d = points.map(([t, v], j) => `${j ? 'L' : 'M'}${x(t).toFixed(2)},${y(v).toFixed(2)}`).join(' ');
+      const color = i ? 'var(--link)' : 'var(--text)';
+      svg += `<path d="${d}" fill="none" stroke="${color}" stroke-width="2" ${i ? 'stroke-dasharray="6 4"' : ''}/>`;
+      const last = points[points.length - 1];
+      svg += `<circle cx="${x(last[0])}" cy="${y(last[1])}" r="3" fill="${color}"/>`;
+    });
+    svg += '</svg>';
+    return svg;
+  }
+  function render() {
+    const time = Number(slider.value), n = Math.round(time / dt);
+    const history = [[], []];
+    // Plot every 0.1 s; each accumulated value uses all 1 ms samples.
+    for (let k = 0; k <= n; k += 100) {
+      history.forEach((line, i) => line.push([k * dt, sums[i][k]]));
+    }
+    if (n % 100) history.forEach((line, i) => line.push([time, sums[i][n]]));
+    plots.innerHTML = chart(`Accumulated dot product at ${time.toFixed(1)} s: 1 Hz = ${sums[0][n].toFixed(3)}, 1.01 Hz = ${sums[1][n].toFixed(3)}`, 0, duration, -12, 105, history);
+    widget.querySelector('output').textContent = `${time.toFixed(1)} s`;
+    slider.setAttribute('aria-valuetext', `${time.toFixed(1)} seconds`);
+
+  }
+  window.addEventListener('resize', render);
+  slider.addEventListener('input', render);
+  // Keep an embedded widget sized to its contents and in the post's theme.
+  if (window.frameElement) {
+    const syncTheme = () => {
+      const theme = parent.document.documentElement.dataset.theme;
+      if (theme) document.documentElement.dataset.theme = theme;
+      else delete document.documentElement.dataset.theme;
+    };
+    syncTheme();
+    new MutationObserver(syncTheme).observe(parent.document.documentElement, {
+      attributes: true, attributeFilter: ['data-theme']
+    });
+    new ResizeObserver(() => {
+      window.frameElement.style.height = `${Math.ceil(document.body.getBoundingClientRect().height) + 2}px`;
+    }).observe(document.body);
+  }
+  render();
+  widget.querySelector('.projection-controls').hidden = false;
+})();
+</script>
+</body>
+</html>

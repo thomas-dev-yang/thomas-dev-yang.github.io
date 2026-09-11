@@ -17,7 +17,19 @@ local function read_post(slug)
 
   local path = "content/" .. slug .. ".md"
   local file = io.open(path, "r")
-  if not file then fail(slug, "missing " .. path) end
+  local bundle_path = "content/" .. slug .. "/index.md"
+  local bundle = io.open(bundle_path, "r")
+  if file and bundle then
+    file:close()
+    bundle:close()
+    fail(slug, "ambiguous post: both " .. path .. " and " .. bundle_path .. " exist")
+  end
+  local target = slug .. ".html"
+  if bundle then
+    file = bundle
+    target = slug .. "/"
+  end
+  if not file then fail(slug, "missing " .. path .. " or " .. bundle_path) end
 
   local source = file:read("*a")
   file:close()
@@ -29,7 +41,7 @@ local function read_post(slug)
   if title == "" then fail(slug, "missing title metadata") end
   if date == "" then fail(slug, "missing date metadata") end
 
-  return post.meta.title, date
+  return post.meta.title, date, target
 end
 
 local function display_date(date)
@@ -48,11 +60,11 @@ local function post_link(link)
   if not is_wikilink(link) then return nil end
 
   local slug = link.target
-  local title, date = read_post(slug)
+  local title, date, target = read_post(slug)
   local sort_date = pandoc.utils.normalize_date(date)
   if not sort_date then fail(slug, "invalid date metadata: " .. date) end
 
-  link.target = slug .. ".html"
+  link.target = target
   link.classes:insert("post-entry")
   link.attributes["data-post-date"] = sort_date
 
