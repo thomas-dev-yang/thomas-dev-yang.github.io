@@ -10,6 +10,7 @@
 - [[philosophy/inferentialism-larp]]
 - [[philosophy/modality]]
 - [[philosophy/rorty-and-dostoevsky]]
+- [[philosophy/heidegger]]
 
 ## Linux
 
