@@ -32,3 +32,4 @@
 - [[misc/speaking]]
 - [[misc/09-07-2026]]
 - [[misc/depressive-frames]]
+- [[misc/observability]]
