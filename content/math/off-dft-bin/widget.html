@@ -7,13 +7,13 @@
   <link rel="stylesheet" href="../../style.css">
 </head>
 <body>
-<figure class="projection-widget" aria-label="Accumulated sine-wave dot products">
-  <figcaption>Accumulated dot product <span>Δt ∑ sin(2πt) sin(2πft)</span></figcaption>
-  <div class="projection-legend"><span>━━ 1 Hz</span><span>┄┄ 1.01 Hz</span></div>
+<figure class="projection-widget" aria-label="Sine-wave projection across frequency">
+  <figcaption>Accumulated dot product <span>S(f, T) / max<sub>f</sub> S(f, T)</span></figcaption>
   <div class="projection-plots"></div>
   <div class="projection-controls" hidden>
-    <label for="projection-time">T = <output for="projection-time">25.0 s</output></label>
-    <input id="projection-time" type="range" min="0" max="200" step="0.1" value="25">
+    <button type="button" class="projection-play" aria-label="Play time animation">Play</button>
+    <label for="projection-time">T = <output for="projection-time">2.00 s</output></label>
+    <input id="projection-time" type="range" min="0" max="20" step="0.01" value="2">
   </div>
   <noscript>JavaScript is required for the plot.</noscript>
 </figure>
@@ -22,11 +22,10 @@ html { background: transparent; }
 body { max-width: none; margin: 0; padding: 0; }
 .projection-widget { margin: 0; padding: .25rem; font: .8rem/1.5 ui-sans-serif, system-ui, sans-serif; }
 .projection-widget figcaption span { display: block; color: var(--muted); font-size: .75rem; }
-.projection-legend { display: flex; gap: 1.25rem; margin-top: .5rem; }
-.projection-legend span:last-child { color: var(--link); }
-.projection-controls { align-items: center; gap: 1rem; }
+.projection-controls { align-items: center; gap: .65rem; }
 .projection-controls:not([hidden]) { display: flex; }
-.projection-controls label { white-space: nowrap; font-variant-numeric: tabular-nums; min-width: 6rem; }
+.projection-controls label { white-space: nowrap; font-variant-numeric: tabular-nums; min-width: 5.5rem; }
+.projection-play { padding: .2rem .35rem; min-width: 3.5rem; border: 1px solid var(--rule); border-radius: .2rem; color: var(--text); background: transparent; font: inherit; cursor: pointer; }
 .projection-widget input { width: 100%; min-width: 0; margin: .5rem 0; accent-color: var(--link); }
 .projection-widget :focus-visible { outline: 2px solid var(--link); outline-offset: 3px; }
 .projection-widget svg { display: block; width: 100%; height: auto; margin: .5rem 0; }
@@ -37,55 +36,80 @@ body { max-width: none; margin: 0; padding: 0; }
   const widget = document.querySelector('.projection-widget');
   const slider = widget.querySelector('input[type="range"]');
   const plots = widget.querySelector('.projection-plots');
-  const dt = 0.001, duration = 200, count = Math.round(duration / dt);
-  // Left-endpoint sampled sums: index n includes samples at 0, …, (n - 1) Δt.
-  const sums = [new Float64Array(count + 1), new Float64Array(count + 1)];
-  function product(t, f) {
-    return Math.sin(2 * Math.PI * t) * Math.sin(2 * Math.PI * f * t);
+  const play = widget.querySelector('.projection-play');
+  const dt = 0.001, duration = 20, frequencyStep = 0.005;
+  let animation = null, previousTime = null, elapsed = Number(slider.value);
+
+  // Exact finite cosine sum for samples k = 0, …, n - 1. Product-to-sum
+  // gives the same dot product as a sample loop without repeating it per frame.
+  function cosineSum(frequency, n) {
+    const a = Math.PI * frequency * dt;
+    return Math.abs(a) < 1e-12 ? n
+      : Math.sin(n * a) / Math.sin(a) * Math.cos((n - 1) * a);
   }
-  for (let n = 0; n < count; n++) {
-    sums[0][n + 1] = sums[0][n] + dt * product(n * dt, 1);
-    sums[1][n + 1] = sums[1][n] + dt * product(n * dt, 1.01);
-  }
-  function chart(title, xMin, xMax, yMin, yMax, lines) {
-    const width = Math.max(260, Math.min(640, plots.clientWidth));
-    const left = 40, right = width - 20, top = 10, bottom = 210;
-    const x = t => left + (t - xMin) / (xMax - xMin) * (right - left);
-    const y = v => bottom - (v - yMin) / (yMax - yMin) * (bottom - top);
-    let svg = `<svg viewBox="0 0 ${width} 240" role="img" aria-label="${title}"><title>${title}</title>`;
-    for (const v of [0, 50, 100]) {
-      svg += `<path d="M${left},${y(v)}H${right}" stroke="var(--rule)"/><text x="${left - 8}" y="${y(v) + 4}" text-anchor="end">${v}</text>`;
-    }
-    for (let i = 0; i <= 4; i++) {
-      const t = xMin + (xMax - xMin) * i / 4;
-      svg += `<text x="${x(t)}" y="233" text-anchor="middle">${Number(t.toFixed(1))}${i === 4 ? ' s' : ''}</text>`;
-    }
-    lines.forEach((points, i) => {
-      if (!points.length) return;
-      const d = points.map(([t, v], j) => `${j ? 'L' : 'M'}${x(t).toFixed(2)},${y(v).toFixed(2)}`).join(' ');
-      const color = i ? 'var(--link)' : 'var(--text)';
-      svg += `<path d="${d}" fill="none" stroke="${color}" stroke-width="2" ${i ? 'stroke-dasharray="6 4"' : ''}/>`;
-      const last = points[points.length - 1];
-      svg += `<circle cx="${x(last[0])}" cy="${y(last[1])}" r="3" fill="${color}"/>`;
-    });
-    svg += '</svg>';
-    return svg;
+  function projection(frequency, n) {
+    return dt / 2 * (cosineSum(1 - frequency, n) - cosineSum(1 + frequency, n));
   }
   function render() {
     const time = Number(slider.value), n = Math.round(time / dt);
-    const history = [[], []];
-    // Plot every 0.1 s; each accumulated value uses all 1 ms samples.
-    for (let k = 0; k <= n; k += 100) {
-      history.forEach((line, i) => line.push([k * dt, sums[i][k]]));
+    const values = Array.from({ length: Math.round(10 / frequencyStep) + 1 },
+      (_, i) => projection(i * frequencyStep, n));
+    const peak = Math.max(...values);
+    // Normalize by the current frequency sweep's positive maximum, preserving
+    // signs. At T = 0 every sum is zero, so leave the curve at zero.
+    const normalized = values.map(value => peak > 0 ? value / peak : 0);
+    const width = Math.max(260, Math.min(640, plots.clientWidth));
+    const left = 34, right = width - 24, top = 42, bottom = 242;
+    const x = f => left + f / 10 * (right - left);
+    const y = v => bottom - (v + 1.05) / 2.1 * (bottom - top);
+    const description = `Peak-normalized sine projection over 0–10 Hz at T = ${time.toFixed(2)} s; 1 Hz: ${normalized[Math.round(1 / frequencyStep)].toFixed(4)}; 1.5 Hz: ${normalized[Math.round(1.5 / frequencyStep)].toFixed(4)}`;
+    let svg = `<svg viewBox="0 0 ${width} 274" role="img" aria-label="${description}"><title>${description}</title>`;
+    for (const value of [-1, 0, 1]) {
+      svg += `<path d="M${left},${y(value)}H${right}" stroke="var(--rule)"/><text x="${left - 8}" y="${y(value) + 4}" text-anchor="end">${value}</text>`;
     }
-    if (n % 100) history.forEach((line, i) => line.push([time, sums[i][n]]));
-    plots.innerHTML = chart(`Accumulated dot product at ${time.toFixed(1)} s: 1 Hz = ${sums[0][n].toFixed(3)}, 1.01 Hz = ${sums[1][n].toFixed(3)}`, 0, duration, -12, 105, history);
-    widget.querySelector('output').textContent = `${time.toFixed(1)} s`;
-    slider.setAttribute('aria-valuetext', `${time.toFixed(1)} seconds`);
-
+    for (const frequency of [0, 2, 4, 6, 8, 10]) {
+      svg += `<text x="${x(frequency)}" y="267" text-anchor="middle">${frequency}${frequency === 10 ? ' Hz' : ''}</text>`;
+    }
+    for (const frequency of [1, 1.5]) {
+      const labelY = frequency === 1 ? 14 : 33;
+      svg += `<path data-reference="${frequency}" d="M${x(frequency)},${labelY + 5}V${bottom}" stroke="var(--link)" stroke-opacity=".6" ${frequency === 1.5 ? 'stroke-dasharray="3 4"' : ''}/><text x="${x(frequency) + 4}" y="${labelY}">${frequency} Hz</text>`;
+    }
+    const points = [];
+    for (let i = 0; i <= Math.round(10 / frequencyStep); i++) {
+      const frequency = i * frequencyStep;
+      points.push(`${i ? 'L' : 'M'}${x(frequency).toFixed(2)},${y(normalized[i]).toFixed(3)}`);
+    }
+    svg += `<path class="projection-curve" d="${points.join(' ')}" fill="none" stroke="var(--text)" stroke-width="1.6" stroke-linejoin="round"/></svg>`;
+    plots.innerHTML = svg;
+    widget.querySelector('output').textContent = `${time.toFixed(2)} s`;
+    slider.setAttribute('aria-valuetext', `${time.toFixed(2)} seconds`);
   }
+  function pause() {
+    if (animation !== null) cancelAnimationFrame(animation);
+    animation = null;
+    previousTime = null;
+    play.textContent = 'Play';
+    play.setAttribute('aria-label', 'Play time animation');
+  }
+  function tick(now) {
+    if (previousTime !== null) elapsed = Math.min(duration, elapsed + (now - previousTime) / 1000);
+    previousTime = now;
+    slider.value = elapsed.toFixed(2);
+    render();
+    if (elapsed >= duration) pause();
+    else animation = requestAnimationFrame(tick);
+  }
+  play.addEventListener('click', () => {
+    if (animation !== null) { pause(); return; }
+    elapsed = Number(slider.value) >= duration ? 0 : Number(slider.value);
+    previousTime = null;
+    play.textContent = 'Pause';
+    play.setAttribute('aria-label', 'Pause time animation');
+    animation = requestAnimationFrame(tick);
+  });
+  slider.addEventListener('input', () => { pause(); render(); });
   window.addEventListener('resize', render);
-  slider.addEventListener('input', render);
+  document.addEventListener('visibilitychange', () => { if (document.hidden) pause(); });
   // Keep an embedded widget sized to its contents and in the post's theme.
   if (window.frameElement) {
     const syncTheme = () => {

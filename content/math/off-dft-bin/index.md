@@ -40,25 +40,33 @@ _continuous time Fourier Transform_. We know that any two distinct frequencies
 are orthogonal, and therefore have dot product 0.
 
 We're not going to jump to the periodic fourier transform - We're going to just
-try projecting `1 Hz` and `1.01 Hz` over time, and "incrementally" build the
-dot product for a sin wave with `1 Hz`.
-
-(note - this is still discrete time but finely _time sampled_ and projected
-directly - the approximation still holds for the math I'm about to show :P)
+try projecting `1 Hz` and `1.5 Hz` over time, and "incrementally" build the
+dot product for a sin wave with `1 Hz`. Furthermore, we're going to constantly
+normalize the sum so that the max sum is 1
 
 ```{=html}
-<iframe src="widget.html" title="Accumulated sine-wave dot products"
-  width="100%" height="360" style="border: 0; display: block; margin: 2rem 0;"></iframe>
+<iframe src="widget.html" title="Sine-wave projection across 0–10 Hz"
+  width="100%" height="380" style="border: 0; display: block; margin: 2rem 0;"></iframe>
 ```
 
-I guess the point is that, as you extend these kinds of things to infinity,
+I guess the point is that, as you extend these kinds of things to infinity, you
+want _some_ kind of intuitive definition for what "orthogonal" is. But given the
+nature of the exponentials, things are technically "not orthogonal" for
+a finite duration (at the wrong boundary) because that specific frequency
+component keeps wobbling between two bounded constnat values. And you want to
+encode that intuition somehow. I'm sure advanced math can encode that intuition
+just fine, but in terms of the _valid transforms_, we can avoid this problem
+"by construction" by just picking the DFT bases as the privileged ones for
+finite supports.
 
 The point of the periodic condition in both the "periodic fourier transforms"
-$\mathbb{R}/(2\pi\mathbb{Z}) \to \mathbb{Z}$ and the DFT $\mathbb{Z}_n \to \mathbb{Z}_n$, is that at these bases, you know that
-the frequencies will cancel out to zero because you know something about the
-period. The "off bin frequencies" _intuitively_ should be 'noise' but they will
-wiggle up and down and cycle up and down. Well, all frequencies do this when
-projected, but the point is the DFT bases give a nice stopping point.
+$\mathbb{R}/(2\pi\mathbb{Z}) \to \mathbb{Z}$ and the DFT $\mathbb{Z}_n \to
+\mathbb{Z}_n$, is that at these bases, you know that the frequencies will
+cancel out to zero because you know something about the period.
 
-(Well, there's deeper math than that, that constrains the construction, but that's
-one way to look at it).
+(I _do_ know from the algebra side - both abstract and linear - there are plenty
+of reasons to show that the DFT bases are the "correct" bases by construction.
+That's cool, but I'd imagine the analysis proofs used in the `CTFT` are where
+the real meat behind my intuitions are. How do you intuitively say a function
+is orthogonal and "goes to zero" at infinity, even when you have no such
+guarantee on most finite support intervals?)
