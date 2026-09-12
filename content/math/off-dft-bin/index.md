@@ -70,3 +70,5 @@ That's cool, but I'd imagine the analysis proofs used in the `CTFT` are where
 the real meat behind my intuitions are. How do you intuitively say a function
 is orthogonal and "goes to zero" at infinity, even when you have no such
 guarantee on most finite support intervals?)
+
+(Note: Maybe I'm overthinking it and it's just limits and forget.)
