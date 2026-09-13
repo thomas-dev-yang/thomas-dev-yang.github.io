@@ -8,6 +8,7 @@
 ## Philosophy
 
 - [[philosophy/inferentialism-larp]]
+- [[philosophy/inferentialism-2]]
 - [[philosophy/modality]]
 - [[philosophy/rorty-and-dostoevsky]]
 - [[philosophy/heidegger]]
