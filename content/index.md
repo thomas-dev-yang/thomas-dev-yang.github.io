@@ -5,6 +5,10 @@
 - [[vision/manufacturing-persistence]]
 - [[vision/9-7-2026]]
 
+## Checklists
+
+-[[checklists/holistic-learning]]
+
 ## Philosophy
 
 - [[philosophy/inferentialism-larp]]
