@@ -7,7 +7,7 @@
 
 ## Checklists
 
--[[checklists/holistic-learning]]
+- [[checklists/holistic-learning]]
 
 ## Philosophy
 
@@ -20,6 +20,7 @@
 ## Linux
 
 - [[linux/virt-1]]
+- [[linux/virt-context]]
 
 ## Math
 
