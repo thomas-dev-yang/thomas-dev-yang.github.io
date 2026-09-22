@@ -21,6 +21,7 @@
 
 - [[linux/virt-1]]
 - [[linux/virt-context]]
+- [[linux/agentic-microvms]]
 
 ## Networking
 
