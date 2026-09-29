@@ -35,6 +35,8 @@
 
 ## AI
 
+- [[ai/thought]]
+
 ## Python
 
 ## Incremental/Query-Based Compilers
