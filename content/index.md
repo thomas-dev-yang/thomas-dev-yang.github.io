@@ -16,6 +16,7 @@
 - [[philosophy/modality]]
 - [[philosophy/rorty-and-dostoevsky]]
 - [[philosophy/heidegger]]
+- [[philosophy/heidegger-2]]
 
 ## Linux
 
