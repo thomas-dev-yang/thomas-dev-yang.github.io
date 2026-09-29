@@ -54,42 +54,66 @@
       var heading = section.firstElementChild;
       var content = Array.from(section.children).slice(1);
 
-      if (!heading || heading.tagName !== "H2" || content.length === 0) return;
+      if (!heading || heading.tagName !== "H2") return;
+      if (content.length === 0) {
+        section.hidden = true;
+        return;
+      }
 
+      var list = content[0];
+      if (list.tagName !== "UL" || list.children.length === 0) return;
+
+      var items = Array.from(list.children);
+      var title = heading.textContent;
       var button = document.createElement("button");
       var region = document.createElement("div");
-      var inner = document.createElement("div");
-      var regionId = (section.id || "section-" + index) + "-content";
+      var preview = document.createElement("div");
+      var states = items.length > 1 ? ["preview", "expanded", "collapsed"] : ["expanded", "collapsed"];
+      var stateIndex = 0;
 
       button.type = "button";
       button.className = "section-toggle";
-      button.setAttribute("aria-controls", regionId);
-
-      while (heading.firstChild) button.appendChild(heading.firstChild);
-      heading.appendChild(button);
+      button.textContent = title;
+      heading.replaceChildren(button);
       heading.classList.add("is-toggle");
 
-      region.id = regionId;
+      region.id = (section.id || "section-" + index) + "-content";
       region.className = "section-content";
-      inner.className = "section-content-inner";
-      content.forEach(function (element) {
-        inner.appendChild(element);
-      });
-      region.appendChild(inner);
+      button.setAttribute("aria-controls", region.id);
+      content.forEach(function (element) { region.appendChild(element); });
       section.appendChild(region);
 
-      function setCollapsed(collapsed) {
-        section.classList.toggle("is-collapsed", collapsed);
-        button.setAttribute("aria-expanded", String(!collapsed));
-        region.setAttribute("aria-hidden", String(collapsed));
-        inner.inert = collapsed;
+      // A decorative glimpse of the next title fades into the page background.
+      // It contains no links, so only visible posts enter the keyboard order.
+      preview.className = "section-preview";
+      preview.setAttribute("aria-hidden", "true");
+      if (items.length > 1) {
+        items[1].querySelectorAll(".post-title, .post-date").forEach(function (part) {
+          preview.appendChild(part.cloneNode(true));
+        });
+      }
+      region.appendChild(preview);
+
+      function renderState() {
+        var state = states[stateIndex];
+        var next = states[(stateIndex + 1) % states.length];
+        var actions = { preview: "Show newest post", expanded: "Show all posts", collapsed: "Collapse section" };
+        var descriptions = { preview: "Showing newest post", expanded: "Showing all posts", collapsed: "Collapsed" };
+        section.dataset.sectionState = state;
+        button.setAttribute("aria-expanded", String(state !== "collapsed"));
+        button.setAttribute("aria-label", title + ": " + descriptions[state] + ". " + actions[next]);
+        region.hidden = state === "collapsed";
+        items.forEach(function (item, itemIndex) {
+          item.hidden = state === "preview" && itemIndex > 0;
+        });
+        preview.hidden = state !== "preview";
       }
 
       button.addEventListener("click", function () {
-        setCollapsed(!section.classList.contains("is-collapsed"));
+        stateIndex = (stateIndex + 1) % states.length;
+        renderState();
       });
-
-      setCollapsed(false);
+      renderState();
     });
   }
 

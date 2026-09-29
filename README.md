@@ -45,5 +45,10 @@ Homepage post lists sort newest first using the same `date:` metadata shown
 beside each title. Posts with the same date sort by path alphabetically.
 File timestamps and the order of links in `content/index.md` do not affect sorting.
 
+The homepage previews the newest post in each non-empty section, with a fading
+glimpse of the next post. Clicking the topic heading cycles through preview,
+expanded, and collapsed views; single-post sections simply expand or collapse.
+Without JavaScript, all posts remain visible.
+
 Pushes to `main` deploy through `.github/workflows/pages.yml`. The repository's
 Pages source must be set to **GitHub Actions**.

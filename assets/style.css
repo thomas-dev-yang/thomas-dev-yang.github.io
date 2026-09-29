@@ -383,8 +383,18 @@ h3 {
   content: "";
 }
 
+.home section.level2:first-child > h2 {
+  margin-top: 0;
+}
+
+.home section.level2 > ul,
+.section-content > ul {
+  margin-top: 0;
+}
+
 .home h2.is-toggle {
   display: block;
+  margin-bottom: 0.35rem;
 }
 
 .home h2.is-toggle::after {
@@ -393,9 +403,10 @@ h3 {
 
 .section-toggle {
   display: flex;
-  width: 100%;
   align-items: center;
   gap: 0.7rem;
+  width: 100%;
+  min-height: 2rem;
   padding: 0;
   border: 0;
   background: none;
@@ -409,15 +420,30 @@ h3 {
 }
 
 .section-toggle::after {
-  height: 1px;
   flex: 1;
+  min-width: 2rem;
+  height: 1px;
   background: var(--rule);
   content: "";
+}
+
+[data-section-state="preview"] .section-toggle::after {
+  background: linear-gradient(to right, var(--rule), transparent);
+}
+
+[data-section-state="expanded"] .section-toggle::after {
+  height: 7px;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='7' viewBox='0 0 24 7'%3E%3Cpath d='M0 3.5 Q6 -1.5 12 3.5 T24 3.5' fill='none' stroke='black' stroke-width='1'/%3E%3C/svg%3E") repeat-x center;
 }
 
 .section-toggle:hover,
 .section-toggle:focus-visible {
   color: var(--text);
+}
+
+.section-toggle:hover::after,
+.section-toggle:focus-visible::after {
+  background-color: var(--link-underline);
 }
 
 .section-toggle:focus-visible {
@@ -426,45 +452,24 @@ h3 {
   outline-offset: 0.2rem;
 }
 
-.section-toggle:hover::after,
-.section-toggle:focus-visible::after {
-  background: var(--link-underline);
-}
-
-.section-content {
-  display: grid;
-  grid-template-rows: 1fr;
-  opacity: 1;
-  transition:
-    grid-template-rows 180ms ease,
-    opacity 150ms ease;
-}
-
-.section-content-inner {
-  min-height: 0;
-  overflow: clip;
-  overflow-clip-margin: var(--post-beacon-spill, 0px);
-}
-
-.is-collapsed .section-content-inner {
-  overflow-clip-margin: 0;
-}
-
-.is-collapsed .section-content {
-  grid-template-rows: 0fr;
-  opacity: 0;
+.section-preview:not([hidden]) {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  height: 2rem;
+  padding-top: 0.38rem;
+  overflow: hidden;
+  opacity: 0.5;
+  mask-image: linear-gradient(to bottom, #000, transparent 90%);
   pointer-events: none;
-}
-
-.home section.is-collapsed > h2 {
-  margin-bottom: 0;
+  user-select: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .home .post-entry::before,
   .home .post-title,
-  .home .post-date,
-  .section-content {
+  .home .post-date {
     transition: none;
   }
 }
