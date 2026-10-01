@@ -14,6 +14,7 @@
 - [[philosophy/inferentialism-larp]]
 - [[philosophy/inferentialism-2]]
 - [[philosophy/modality]]
+- [[philosophy/representationalism]]
 - [[philosophy/rorty-and-dostoevsky]]
 - [[philosophy/heidegger]]
 - [[philosophy/heidegger-2]]
